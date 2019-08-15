@@ -1,4 +1,17 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 //string
 var myName = 'Mike'; //the type (string) is specified after initialization
 //myName = 28;
@@ -130,3 +143,98 @@ var myself = {
 };
 myself.bankAccount.deposit(3000);
 console.log(myself);
+// Default Parameters
+var countdown = function (start) {
+    if (start === void 0) { start = 10; }
+    while (start > 0) {
+        start--;
+    }
+    console.log("Done!", start);
+};
+countdown();
+//Rest Parameters & Tuples fot TS3
+function printInfo(name, age) {
+    console.log('My name is ' + name + ' and I am ' + age + ' years old!');
+}
+//Tuples fot TS3
+// function printInfo(...info: [string, number]) {
+//     console.log('My name is ' + info[0] + ' and I am ' + info[1] + ' years old!');
+// }
+var Person = /** @class */ (function () {
+    function Person(name, username) {
+        this.username = username;
+        this.age = 27; //they're also accessible from any objects or classes which inherit from this class
+        this.name = name;
+    }
+    Person.prototype.printAge = function () {
+        console.log(this.age);
+        this.setType("Old Guy");
+    };
+    Person.prototype.setType = function (type) {
+        this.type = type;
+        console.log(this.type);
+    };
+    return Person;
+}());
+//in short version
+// class Person {
+//     private type: string;
+//     protected age: number;
+//     constructor(public name: string, public username: string) {
+//     }
+// }
+var person = new Person("Max", 'max'); //I can not get access to type and age
+console.log(person);
+person.printAge();
+//person.setType('cool guy'); //Won't work with private method
+//Inheritance
+var Mike = /** @class */ (function (_super) {
+    __extends(Mike, _super);
+    //name = "Mike"; go tu super if i want to overwrite
+    function Mike(username) {
+        var _this = _super.call(this, "Max", username) || this;
+        _this.age = 31;
+        return _this;
+        //console.log(this.type) //type is private and only accessible within Person
+    }
+    return Mike;
+}(Person));
+var mike = new Mike("max");
+console.log(mike);
+var Plant = /** @class */ (function () {
+    function Plant() {
+        this._species = 'Default';
+    }
+    Object.defineProperty(Plant.prototype, "species", {
+        get: function () {
+            return this._species;
+        },
+        set: function (value) {
+            if (value.length > 3) {
+                this._species = value;
+            }
+            else {
+                this._species = 'Default';
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return Plant;
+}());
+var plant = new Plant();
+console.log(plant.species);
+plant.species = 'Green Plant';
+console.log(plant.species);
+// Static Properties & Methods
+var Helpers = /** @class */ (function () {
+    function Helpers() {
+    }
+    Helpers.calcCircumference = function (diameter) {
+        return this.PI * diameter;
+    };
+    Helpers.PI = 3.14;
+    return Helpers;
+}());
+console.log(2 * Helpers.PI);
+console.log(Helpers.calcCircumference(8));

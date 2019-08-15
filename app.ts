@@ -179,3 +179,100 @@ let myself: {name: string, bankAccount: BankAccount, hobbies: string[] } = {
 myself.bankAccount.deposit(3000);
 
 console.log(myself);
+
+// Default Parameters
+const countdown = (start: number = 10): void => {
+    while (start > 0) {
+        start--;
+    }
+    console.log("Done!", start)
+}
+
+countdown();
+
+//Rest Parameters & Tuples fot TS3
+function printInfo(name: string, age: number) {
+    console.log('My name is ' + name + ' and I am ' + age + ' years old!');
+}
+//Tuples fot TS3
+// function printInfo(...info: [string, number]) {
+//     console.log('My name is ' + info[0] + ' and I am ' + info[1] + ' years old!');
+// }
+
+class Person {
+    name: string;
+    private type: string;
+    protected age: number = 27;           //they're also accessible from any objects or classes which inherit from this class
+
+    constructor(name: string, public username: string) {
+        this.name = name;
+    }
+
+    printAge() {
+        console.log(this.age);
+        this.setType("Old Guy");
+    }
+
+    private setType(type: string) {
+        this.type = type;
+        console.log(this.type)
+    }
+}
+
+//in short version
+// class Person {
+//     private type: string;
+//     protected age: number;
+//     constructor(public name: string, public username: string) {
+//     }
+// }
+
+const person = new Person("Max",'max') //I can not get access to type and age
+console.log(person);
+person.printAge();
+//person.setType('cool guy'); //Won't work with private method
+
+//Inheritance
+class Mike extends Person {
+    //name = "Mike"; go tu super if i want to overwrite
+    constructor(username:string) {  //if I use constructor I have to use super(), super refers to the parent class
+        super("Max", username); // i exoect to get username and this is a reason why i put this var in constructor
+        this.age = 31;
+        //console.log(this.type) //type is private and only accessible within Person
+    }
+}
+
+const mike = new Mike("max");
+console.log(mike);
+
+class Plant {
+    private _species: string = 'Default';
+
+    get species() {
+        return this._species;
+    }
+
+    set species(value: string) {
+        if(value.length > 3) {
+            this._species = value;
+        } else {
+            this._species = 'Default';
+        }
+    }
+}
+
+let plant = new Plant();
+console.log(plant.species)
+plant.species = 'Green Plant';
+console.log(plant.species)
+
+// Static Properties & Methods
+class Helpers {
+    static PI: number = 3.14;
+    static calcCircumference(diameter: number): number {
+        return this.PI * diameter;
+    }
+}
+
+console.log(2 * Helpers.PI);
+console.log(Helpers.calcCircumference(8));
