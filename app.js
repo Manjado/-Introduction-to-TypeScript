@@ -238,3 +238,128 @@ var Helpers = /** @class */ (function () {
 }());
 console.log(2 * Helpers.PI);
 console.log(Helpers.calcCircumference(8));
+//Abstract Classes , is class you can't use as instance. You can only inherit
+var Project = /** @class */ (function () {
+    function Project() {
+        this.projectName = "Default";
+        this.budget = 1000;
+    }
+    // Logic should be written in child class
+    Project.prototype.calcBudget = function () {
+        return this.budget * 2;
+    };
+    return Project;
+}());
+var ITProject = /** @class */ (function (_super) {
+    __extends(ITProject, _super);
+    function ITProject() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    ITProject.prototype.changeName = function (name) {
+        this.projectName = name;
+    };
+    return ITProject;
+}(Project));
+var newProject = new ITProject(); // new Project will give error because it is abstract class
+console.log(newProject);
+newProject.changeName("Super IT Project");
+console.log(newProject);
+//private constructors
+//it is patern of singleton , you can only have one instance of class
+var OnlyOne = /** @class */ (function () {
+    function OnlyOne(name) {
+        this.name = name;
+    }
+    OnlyOne.getInstance = function () {
+        if (!OnlyOne.instance) {
+            OnlyOne.instance = new OnlyOne('The only One');
+        }
+        return OnlyOne.instance;
+    };
+    return OnlyOne;
+}());
+//let wrong = new OnlyOne('The Only One'); // in this way you can't create instance of class
+var right = OnlyOne.getInstance();
+var OnlyTwo = /** @class */ (function () {
+    function OnlyTwo(name) {
+        this.name = name;
+    } //if you want to read value you can use getter or readyonly
+    OnlyTwo.getInstance = function () {
+        if (!OnlyTwo.instance) {
+            OnlyTwo.instance = new OnlyTwo('The only One');
+        }
+        return OnlyTwo.instance;
+    };
+    return OnlyTwo;
+}());
+var right2 = OnlyTwo.getInstance();
+//right2.name = 'it is read only;
+console.log(right2);
+//Exercise
+var Car = /** @class */ (function () {
+    function Car(name) {
+        this.acceleration = 0;
+        this.name = name;
+    }
+    Car.prototype.honk = function () {
+        console.log('Toooooooooot!');
+    };
+    Car.prototype.accelerate = function (speed) {
+        this.acceleration = this.acceleration + speed;
+    };
+    return Car;
+}());
+var carOne = new Car('BMW');
+carOne.honk();
+console.log(carOne.acceleration);
+carOne.accelerate(10);
+console.log(carOne.acceleration);
+var BaseObject = /** @class */ (function () {
+    function BaseObject() {
+        this.width = 0;
+        this.length = 0;
+    }
+    return BaseObject;
+}());
+var Rectangle = /** @class */ (function (_super) {
+    __extends(Rectangle, _super);
+    function Rectangle() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Rectangle.prototype.calcSize = function () {
+        return this.width * this.length;
+    };
+    return Rectangle;
+}(BaseObject));
+var rectangle = new Rectangle();
+rectangle.width = 5;
+rectangle.length = 10;
+console.log(rectangle.calcSize());
+//exercise 3 - getter & setter
+var PersonOne = /** @class */ (function () {
+    function PersonOne() {
+        this._firstName = '';
+    }
+    Object.defineProperty(PersonOne.prototype, "firstName", {
+        get: function () {
+            return this._firstName;
+        },
+        set: function (value) {
+            if (value.length > 3) {
+                this._firstName = value;
+            }
+            else {
+                this._firstName = "";
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return PersonOne;
+}());
+var personOne = new PersonOne();
+console.log(personOne.firstName);
+personOne.firstName = "Ma";
+console.log(personOne.firstName);
+personOne.firstName = "Mike";
+console.log(personOne.firstName);

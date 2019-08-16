@@ -276,3 +276,134 @@ class Helpers {
 
 console.log(2 * Helpers.PI);
 console.log(Helpers.calcCircumference(8));
+
+//Abstract Classes , is class you can't use as instance. You can only inherit
+abstract class Project {
+    projectName: string = "Default";
+    budget: number = 1000;
+
+    abstract changeName(name: string): void;  //abstract method doesn't include any logic
+                                             // Logic should be written in child class
+
+    calcBudget() {
+        return this.budget * 2;
+    }
+}
+
+class ITProject extends Project {
+    changeName(name: string): void {
+        this.projectName = name;
+    }
+}
+
+let newProject = new ITProject(); // new Project will give error because it is abstract class
+console.log(newProject);
+newProject.changeName("Super IT Project");
+console.log(newProject);
+
+//private constructors
+//it is patern of singleton , you can only have one instance of class
+class OnlyOne {
+    private static instance: OnlyOne;
+
+    private constructor(public name: string) {}
+
+    static getInstance() {
+        if(!OnlyOne.instance) {
+            OnlyOne.instance = new OnlyOne('The only One');
+        }
+        return OnlyOne.instance;
+    }
+}
+
+//let wrong = new OnlyOne('The Only One'); // in this way you can't create instance of class
+let right = OnlyOne.getInstance()
+
+class OnlyTwo {
+    private static instance: OnlyTwo;
+
+    private constructor(public readonly name: string) {} //if you want to read value you can use getter or readyonly
+
+    static getInstance() {
+        if(!OnlyTwo.instance) {
+            OnlyTwo.instance = new OnlyTwo('The only One');
+        }
+        return OnlyTwo.instance;
+    }
+}
+
+let right2 = OnlyTwo.getInstance();
+//right2.name = 'it is read only;
+console.log(right2);
+
+
+
+
+
+//Exercise
+class Car {
+    name: string;
+    acceleration: number = 0
+    constructor(name: string,) {
+        this.name = name;
+    }
+
+    honk() {
+        console.log('Toooooooooot!')
+    }
+
+    accelerate(speed: number) {
+        this.acceleration =  this.acceleration + speed
+    }
+
+}
+
+const carOne = new Car('BMW')
+carOne.honk();
+console.log(carOne.acceleration);
+carOne.accelerate(10);
+console.log(carOne.acceleration);
+
+class BaseObject {
+    width = 0;
+    length = 0;
+
+}
+
+class Rectangle extends BaseObject {
+    calcSize() {
+        return this.width * this.length
+    }
+}
+
+const rectangle = new Rectangle();
+rectangle.width = 5;
+rectangle.length = 10;
+console.log(rectangle.calcSize());
+
+
+//exercise 3 - getter & setter
+
+class PersonOne {
+    private _firstName: string = '';
+
+    get firstName() {
+        return this._firstName;
+    }
+
+    set firstName(value: string) {
+        if (value.length > 3) {
+            this._firstName = value;
+        } else {
+            this._firstName = "";
+        }
+    }
+}
+
+const personOne = new PersonOne();
+console.log(personOne.firstName);
+personOne.firstName = "Ma";
+console.log(personOne.firstName)
+personOne.firstName = "Mike";
+console.log(personOne.firstName);
+
