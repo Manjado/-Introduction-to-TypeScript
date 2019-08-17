@@ -163,6 +163,7 @@ function printInfo(name, age) {
 var Person = /** @class */ (function () {
     function Person(name, username) {
         this.username = username;
+        this.type = 'example';
         this.age = 27; //they're also accessible from any objects or classes which inherit from this class
         this.name = name;
     }

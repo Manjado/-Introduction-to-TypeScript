@@ -201,7 +201,7 @@ function printInfo(name: string, age: number) {
 
 class Person {
     name: string;
-    private type: string;
+    private type: string = 'example';
     protected age: number = 27;           //they're also accessible from any objects or classes which inherit from this class
 
     constructor(name: string, public username: string) {
